@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Interaction : MonoBehaviour
 {
-    [SerializeField] private GameObject[] _enemies;
+    [SerializeField] private Enemy[] _enemies;
     [SerializeField] private GameResults _gameResults;
+
+    private float _minDistance = 0.2f;
 
     private void Start()
     {
-        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        _enemies = FindObjectsOfType<Enemy>();
     }
 
     private void Update()
@@ -19,10 +21,10 @@ public class Interaction : MonoBehaviour
             if (enemy == null)
                 continue;
 
-            if (Vector3.Distance(gameObject.transform.position, enemy.gameObject.transform.position) < 0.2f)
+            if (Vector3.Distance(gameObject.transform.position, enemy.gameObject.transform.position) < _minDistance)
             {
-                Destroy(enemy);
-                _gameResults.CheakEnemys();
+                Destroy(enemy.gameObject);
+                _gameResults.CheckEnemys();
             }
         }
     }

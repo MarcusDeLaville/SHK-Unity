@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private Vector3 _target;
+    [SerializeField]private Vector3 _target;
+    private int _radius = 4;
+    private int _smooth = 2;
 
     private void Start()
     {
-        _target = Random.insideUnitCircle * 4;
+        ResetTarget();
     }
     
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position, _target, 2 * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, _target, _smooth * Time.deltaTime);
 
         if (transform.position == _target)
         {
-            _target = Random.insideUnitCircle * 4;
+            ResetTarget();
         }     
+    }
+
+    private void ResetTarget()
+    {
+        _target = Random.insideUnitCircle * _radius;
     }
 }

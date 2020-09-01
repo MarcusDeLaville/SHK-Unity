@@ -1,22 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameResults : MonoBehaviour
 {
     [SerializeField] private GameObject _endPanel;
-    [SerializeField] private GameObject[] _enemies;
+    [SerializeField] private Enemy[] _enemies;
 
     private void Start()
     {
-        CheakEnemys();
+        _enemies = FindObjectsOfType<Enemy>();
     }
 
-    public void CheakEnemys()
+    public void CheckEnemys()
     {
-        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        _enemies = _enemies.Where(x => x != null).ToArray();
 
-        if(_enemies.Length == 1)
+        if (_enemies.Length == 1)
         {
             _endPanel.SetActive(true);
         }
