@@ -1,24 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GameResults : MonoBehaviour
 {
     [SerializeField] private GameObject _endPanel;
-    [SerializeField] private GameObject[] _enemies;
+    [SerializeField] private List<Enemy> _enemies;
 
-    private void Start()
+    private void OnDie()
     {
-        CheakEnemys();
-    }
+        int aliveEnemyCount = _enemies.Count(enemy => enemy.IsAlive == true);
 
-    public void CheakEnemys()
-    {
-        _enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        print(aliveEnemyCount);
 
-        if(_enemies.Length == 1)
+        if(aliveEnemyCount == 0)
         {
             _endPanel.SetActive(true);
+        }
+    }
+
+    private void OnEnable()
+    {
+        foreach (Enemy enemy in _enemies)
+        {
+            enemy.Died += OnDie;
         }
     }
 }
